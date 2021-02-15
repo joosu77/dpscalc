@@ -55,7 +55,11 @@ class Set:
 
 
 def findItem(name):
-    li = [i for i in items if i.name.lower() == name.lower() and i.duplicate == False]
+    if name.lower() == "mythical cape":
+        # regular myth cape is a duplicate, mounted cape is marked regular
+        li = [i for i in items if i.name.lower() == name.lower() and i.equipable == True]
+    else:
+        li = [i for i in items if i.name.lower() == name.lower() and i.duplicate == False]
     if len(li) == 0:
         print(f"Error in find item: no item matching name {name}")
         return 0
@@ -73,7 +77,7 @@ def findMonster(name):
         print(f"Multiple monsters found, choose from:")
         for i in range(len(li)):
             print(f"[{i}] {li[i].wiki_url}")
-        return li[getInp(range(len(li)))]
+        return li[int(getInp([str(i) for i in list(range(len(li)))]))]
     return li[0]
 
 def getInp(validVals, checkForPrefix = False):
@@ -153,7 +157,6 @@ if style in ["slash","stab","crush"]:
     elif set.it["neck"] and set.it["neck"].name == "Salve amulet (e)" or set.it["neck"] and set.it["neck"].name == "Salve amulet(ei)":
         maxhit = math.floor(maxhit*1.2)
         maxAtkRoll = math.floor(maxAtkRoll*1.2)
-    maxAtkRoll = effectiveAtk*(atkBon+64)
 elif style == "mage":
     # Mage
     maxhit = 1
